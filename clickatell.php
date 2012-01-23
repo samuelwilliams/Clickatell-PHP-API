@@ -35,6 +35,9 @@ class clickatell
     protected $username;
     protected $password;
     protected $apiURL;
+    protected $delay;
+    protected $messageID;
+    protected $validityPeriod;
 
     /**
      * Authenticates and opens SMS session
@@ -64,7 +67,7 @@ class clickatell
     }
 
     /**
-     * @param $id The Clickatell API ID
+     * @param string $id The Clickatell API ID
      * @return clickatell
      */
     public function setApiID($id)
@@ -107,12 +110,13 @@ class clickatell
     }
 
     /**
-     * @param $value The message sender
+     * @param string $value The message sender
      * @return clickatell
      */
     public function setFrom($value)
     {
         $this->from = $value;
+        return $this;
     }
 
     /**
@@ -122,12 +126,44 @@ class clickatell
     public function setMessage($text)
     {
         $this->text = $text;
+        return $this;
+    }
+
+    /**
+     * @param string $value The user defined message ID
+     * @return clickatell
+     */
+    public function setMessageID($value)
+    {
+        $this->messageID = $value;
+        return $this;
+    }
+
+    /**
+     * @param integer $value The delay (in minutes) before sending message
+     * @return clickatell
+     */
+    public function setDelay($value)
+    {
+        $this->delay = (int) $value;
+        return $this;
+    }
+
+    /**
+     * @param integer $value The validity period in minutes. Message will not be delivered if it is still queued on gateway after this time period.
+     * @return clickatell
+     */
+    public function setValidityPeriod($value)
+    {
+        $this->validityPeriod = (int) $value;
+        return $this;
     }
 
     /**
      * This function is configured to validate Australian Mobile numbers.
      * This will need to be changed if sending SMS messages to numbers outside of Australia
-     * @param (string|array) $numbers The number(s) to send the SMS to
+     * @param string|array $numbers The number(s) to send the SMS to
+     * @return clickatell
      */
     public function addNumbers($numbers)
     {
@@ -138,8 +174,9 @@ class clickatell
 
         foreach($numbers AS $val)
         {
-            $num = preg_replace('/[^\d]/','',$val);
-            if(preg_match('/(61|0)4\d{8}/',$num))
+            $num = preg_replace('/[^\d]/','', $val);
+
+            if(preg_match('/(61|0)4\d{8}/', $num))
             {
                 $this->numbers[] = $num;
             }
@@ -222,14 +259,19 @@ class clickatell
             $msg->addChild('session_id', $this->session_id);
             $msg->addChild('to', $number);
             $msg->addChild('text', $this->text);
-            $msg->addChild('from', $this->from);
+
+            //Optional elements
+            if(isset($this->from)) $msg->addChild('from', $this->from);
+            if(isset($this->delay)) $msg->addChild('deliv_time', $this->delay);
+            if(isset($this->messageID)) $msg->addChild('cliMsgId', $this->messageID);
+            if(isset($this->validityPeriod)) $msg->addChild('validity', $this->validityPeriod);
         }
 
         $this->xml = $xml->asXML();
     }
 
     /**
-     * @return string
+     * @return string The message XML
      */
     public function getXML()
     {
