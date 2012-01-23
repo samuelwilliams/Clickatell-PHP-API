@@ -158,6 +158,11 @@ class clickatell
      */
     public function getBalance()
     {
+        if(!isset($this->session_id))
+        {
+            $this->authenticate();
+        }
+        
         $xml = new SimpleXMLElement('<clickAPI/>');
         $balance = $xml->addChild('getBalance');
         $balance->addChild('session_id', $this->session_id);
@@ -193,8 +198,8 @@ class clickatell
      */
     public function getRejectedNumbers()
     {
-    	return $this->rejectedNumbers;
-	}
+        return $this->rejectedNumbers;
+    }
 
     /**
      * @return string The Clickatell session ID
@@ -217,6 +222,7 @@ class clickatell
             $msg->addChild('session_id', $this->session_id);
             $msg->addChild('to', $number);
             $msg->addChild('text', $this->text);
+            $msg->addChild('from', $this->from);
         }
 
         $this->xml = $xml->asXML();
@@ -232,13 +238,31 @@ class clickatell
 
     /**
      * Send the SMS
+     * @return API Message ID
+     * @throws ErrorException
      */
     public function sendSMS()
     {
+        if(!isset($this->session_id))
+        {
+            $this->authenticate();
+        }
+        
         $this->setXML();
 
         $url = sprintf('%s?data=%s', $this->apiURL, urlencode($this->xml));
         $this->response = file_get_contents($url);
+        
+        $response = simplexml_load_string($this->response);
+
+        if($response->sendMsgResp->fault)
+        {
+            throw new ErrorException('Send Message Failed');
+        }
+        else
+        {
+            return $response->sendMsgResp->apiMsgId;
+        }
     }
 
     /**
