@@ -28,7 +28,6 @@ class clickatell
     protected $text;
     protected $response;
     protected $from;
-    protected $rejectedNumbers = array();
     protected $xml;
     protected $balance;
     protected $apiID;
@@ -160,8 +159,7 @@ class clickatell
     }
 
     /**
-     * This function is configured to validate Australian Mobile numbers.
-     * This will need to be changed if sending SMS messages to numbers outside of Australia
+     * Add the number(s) of the message recipient(s)
      * @param string|array $numbers The number(s) to send the SMS to
      * @return clickatell
      */
@@ -172,19 +170,11 @@ class clickatell
             $numbers = array($numbers);
         }
 
-        foreach($numbers AS $val)
+        foreach($numbers AS $number)
         {
-            $num = preg_replace('/[^\d]/','', $val);
-
-            if(preg_match('/(61|0)4\d{8}/', $num))
-            {
-                $this->numbers[] = $num;
-            }
-            else
-            {
-                $this->rejectedNumbers[] = $val;
-            }
+            $this->numbers[] = $number;
         }
+
         return $this;
     }
 
@@ -228,14 +218,6 @@ class clickatell
     public function getNumbers()
     {
         return $this->numbers;
-    }
-    
-    /**
-     * @return array The rejected numbers
-     */
-    public function getRejectedNumbers()
-    {
-        return $this->rejectedNumbers;
     }
 
     /**
