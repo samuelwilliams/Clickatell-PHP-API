@@ -23,11 +23,8 @@
 
 require_once('clickatell.php');
 
-/**
- * The API is configured to filter Australian numbers,
- * this can be changed upon implementation. If you come
- * up with a better solution, please make a pull request.
- */
+$message = 'This is an example message.';
+
 $phone_numbers = array(
     '0412345678',
     '+61412 345 678',
@@ -40,9 +37,12 @@ $sms->setApiID('1234567')
     ->setUsername('username')
     ->setPassword('password')
     ->setFrom('Joe Bloggs')
-    ->addNumbers($phone_numbers);
+    ->addNumbers($phone_numbers)
+    ->setValidityPeriod(180)
+    ->setDelay(20)
+    ->setMessageID('EXAMPLE-001')
+    ->setMessage($message);
 
-$sms->authenticate();
 $sms->sendSMS();
 
 echo sprintf('Your SMS balance is <strong>%s</strong>', $sms->getBalance());
