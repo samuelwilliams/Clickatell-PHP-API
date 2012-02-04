@@ -23,19 +23,88 @@
 
 class clickatell
 {
+    /**
+     * The Clickatell session ID
+     * @var string
+     */
     protected $session_id;
+
+    /**
+     * An array of number to send the SMS to
+     * @var array
+     */
     protected $numbers = array();
+
+    /**
+     * The body of the text message
+     * @var string
+     */
     protected $text;
+
+    /**
+     * The response from the XML server (as XML)
+     * @var string
+     */
     protected $response;
+
+    /**
+     * The sender of the SMS (only if configured)
+     * @var string
+     */
     protected $from;
+
+    /**
+     * The xml being headers
+     * @var string
+     */
     protected $xml;
+
+    /**
+     * The Clickatell credit balance
+     * @var string
+     */
     protected $balance;
+
+    /**
+     * The Clickatell API ID
+     * @var string
+     */
     protected $apiID;
+
+    /**
+     * The Clickatell username
+     * @var string
+     */
     protected $username;
+
+    /**
+     * The Clickatell password
+     * @var string
+     */
     protected $password;
+
+    /**
+     * The Clickatell API URL
+     * @var string
+     */
     protected $apiURL;
+
+    /**
+     * The delay (in minutes) before sending message
+     * @var int
+     */
     protected $delay;
+
+    /**
+     * The user defined message ID
+     * @var string
+     */
     protected $messageID;
+
+    /**
+     * The validity period in minutes. Message will not be delivered if it is still queued on gateway after this time period.
+     * @var string
+     */
     protected $validityPeriod;
 
     /**
@@ -66,6 +135,7 @@ class clickatell
     }
 
     /**
+     * Sets the Clickatell API ID
      * @param string $id The Clickatell API ID
      * @return clickatell
      */
@@ -76,8 +146,8 @@ class clickatell
     }
 
     /**
-     * The Clickatell Username
-     * @param string $username
+     * Sets the Clickatell Username
+     * @param string $username The Clickatell username
      * @return clickatell
      */
     public function setUsername($username)
@@ -87,8 +157,8 @@ class clickatell
     }
 
     /**
-     * The Clickatell password
-     * @param string $password
+     * Sets the Clickatell password
+     * @param string $password The Clickatell password
      * @return clickatell
      */
     public function setPassword($password)
@@ -98,8 +168,8 @@ class clickatell
     }
 
     /**
-     * The API URL
-     * @param string $url
+     * Sets the Clickatell API URL
+     * @param string $url The Clickatell API URL
      * @return clickatell
      */
     public function setApiURL($url)
@@ -109,6 +179,7 @@ class clickatell
     }
 
     /**
+     * Sets the messages' sender
      * @param string $value The message sender
      * @return clickatell
      */
@@ -119,6 +190,7 @@ class clickatell
     }
 
     /**
+     * Sets the message body text
      * @param string $text The message text
      * @return clickatell
      */
@@ -129,6 +201,7 @@ class clickatell
     }
 
     /**
+     * Sets the user defined message ID
      * @param string $value The user defined message ID
      * @return clickatell
      */
@@ -139,6 +212,7 @@ class clickatell
     }
 
     /**
+     * Sets the delay
      * @param integer $value The delay (in minutes) before sending message
      * @return clickatell
      */
@@ -149,7 +223,8 @@ class clickatell
     }
 
     /**
-     * @param integer $value The validity period in minutes. Message will not be delivered if it is still queued on gateway after this time period.
+     * Sets the validity period
+     * @param integer $value The validity period in minutes.
      * @return clickatell
      */
     public function setValidityPeriod($value)
@@ -213,6 +288,7 @@ class clickatell
     }
 
     /**
+     * Get the numbers
      * @return array
      */
     public function getNumbers()
@@ -221,6 +297,7 @@ class clickatell
     }
 
     /**
+     * Get the clickatell session ID
      * @return string The Clickatell session ID
      */
     public function getSessionID()
@@ -229,7 +306,7 @@ class clickatell
     }
 
     /**
-     * Set the messages XML
+     * Set the request XML
      */
     public function setXML()
     {
@@ -253,6 +330,7 @@ class clickatell
     }
 
     /**
+     * Get the request XML
      * @return string The message XML
      */
     public function getXML()
@@ -290,7 +368,8 @@ class clickatell
     }
 
     /**
-     * @return string The response in the form of XML
+     * Get the XML response
+     * @return string The response in the form of XML string
      */
     public function getResponse()
     {
