@@ -340,7 +340,7 @@ class clickatell
 
     /**
      * Send the SMS
-     * @return API Message ID
+     * @return string API Message ID
      * @throws ErrorException
      */
     public function sendSMS()
@@ -352,8 +352,15 @@ class clickatell
         
         $this->setXML();
 
-        $url = sprintf('%s?data=%s', $this->apiURL, urlencode($this->xml));
-        $this->response = file_get_contents($url);
+        $params = array(
+            'http' => array(
+                'method' => 'POST',
+                'content' => http_build_query(array('data' => $this->xml))
+            ));
+
+        $context = stream_context_create($params);
+        $file = fopen($this->apiURL, 'r', false, $context);
+        $this->response = stream_get_contents($file);
         
         $response = simplexml_load_string($this->response);
 
