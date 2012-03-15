@@ -124,13 +124,13 @@ class clickatell
 
         $response = simplexml_load_file($url);
 
-        if($response->authResp->fault)
+        if($response->{'authResp'}->{'fault'})
         {
             throw new ErrorException('Authentication Failed');
         }
         else
         {
-            $this->session_id = $response->authResp->session_id;
+            $this->session_id = $response->{'authResp'}->{'session_id'};
         }
     }
 
@@ -275,13 +275,13 @@ class clickatell
 
         $response = simplexml_load_string($this->response);
 
-        if($response->getBalanceResp->fault)
+        if($response->{'getBalanceResp'}->{'fault'})
         {
             throw new ErrorException('Balance Query Failed');
         }
         else
         {
-            $this->balance = $response->getBalanceResp->ok;
+            $this->balance = $response->{'getBalanceResp'}->{'ok'};
         }
 
         return $this->balance;
@@ -364,13 +364,13 @@ class clickatell
         
         $response = simplexml_load_string($this->response);
 
-        if($response->sendMsgResp->fault)
+        if($response->{'sendMsgResp'}->{'fault'})
         {
             throw new ErrorException('Send Message Failed');
         }
         else
         {
-            return $response->sendMsgResp->apiMsgId;
+            return $response->{'sendMsgResp'}->{'apiMsgId'};
         }
     }
 
