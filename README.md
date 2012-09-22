@@ -1,7 +1,9 @@
 Badcow Clickatell PHP API
 =========================
 
-This is an API for use with the Clickatell SMS service. It allows the sending of a single message to multiple numbers. The script uses the Clickatell XML API, you will need to subscribe to a Clickatell account to use this API.
+This is an API for use with the [Clickatell SMS service](http://www.clickatell.com). It allows the sending of a single message to multiple numbers.
+
+The script uses the [Clickatell XML API](http://cdn.clickatell.com/downloads/xml/Clickatell_XML.pdf), you will need to subscribe to a Clickatell account to use this API.
 
 ## Example
     require_once __DIR__ . '/Clickatell/Clickatell.php';
