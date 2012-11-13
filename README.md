@@ -18,5 +18,5 @@ The script uses the [Clickatell XML API](http://cdn.clickatell.com/downloads/xml
             '19997654321',
         ))
         ->setFrom('Sam Williams')
-        ->setMessage('Hello this is a test message')
+        ->setMessage('Hello, this is a test message')
         ->sendSMS();
