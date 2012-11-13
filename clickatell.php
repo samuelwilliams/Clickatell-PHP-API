@@ -250,7 +250,7 @@ class Clickatell
 
         $response = $this->sendQuery($xml);
 
-        if($response->{'getBalanceResp'}->{'fault'}) {
+        if ($response->{'getBalanceResp'}->{'fault'}) {
             throw new \ErrorException('Balance Query Failed');
         }
 
@@ -259,6 +259,7 @@ class Clickatell
 
     /**
      * Get the clickatell session ID
+     *
      * @return string The Clickatell session ID
      */
     public function getSessionID()
