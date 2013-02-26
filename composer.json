@@ -1,0 +1,18 @@
+{
+    "name": "badcow/clickatel-php-api",
+    "description": "A PHP API for sending SMS messages using the Clickatell XML API.",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Sam Williams",
+            "email": "sam@badcow.co"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+
+    },
+    "autoload": {
+       "psr-0": { "Badcow\\": "lib/" }
+    }
+}
